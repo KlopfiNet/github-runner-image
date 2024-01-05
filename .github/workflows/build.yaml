@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - "*docker*"
+      - "run.sh"
 
 jobs:
   docker:
