@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - "*docker*"
+      - "*ocker*"
       - "run.sh"
       - ".github/workflows/**"
   schedule:
