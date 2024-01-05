@@ -22,10 +22,10 @@ RUN TRANSFORMED_ARCH=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo $TARGET
     export full_url="https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${TRANSFORMED_ARCH}-${RUNNER_VERSION}.tar.gz"; \
     echo "TRANSFORMED_ARCH: $TRANSFORMED_ARCH | full_url: $full_url"; \
     curl -L $full_url -o ./archive.tar.gz \
-        && ls ./ \ # DEBUG
+        && ls ./ \
         && tar -xzf ./archive.tar.gz -C ./actions-runner/ \
         && rm ./archive.tar.gz \
-        && ls ./actions-runner # DEBUG
+        && ls ./actions-runner
 
 # Install deps
 RUN ./actions-runner/bin/installdependencies.sh
