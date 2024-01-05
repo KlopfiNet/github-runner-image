@@ -30,8 +30,9 @@ echo REG_URL: ${REG_URL}
 REG_TOKEN=$(curl -sX POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${GH_TOKEN}" ${REG_URL} | jq .token --raw-output)
 
 # Configuration
-cd /home/docker/actions-runner
+cd ./actions-runner
 
+echo LABELS: $labels
 ./config.sh --unattended --url https://github.com/${GH_FULL} --token ${REG_TOKEN} --name ${RUNNER_NAME} $labels
 
 cleanup() {
