@@ -19,9 +19,13 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y --no-install-r
 
 # Transform build arch as GH runner release does not have a file for "amd64", but "x64"
 RUN TRANSFORMED_ARCH=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo $TARGETARCH); \
-    #echo "I GOT: $TRANSFORMED_ARCH"; \
-    wget -qO- https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${TRANSFORMED_ARCH}-${RUNNER_VERSION}.tar.gz | \
-        tar -xzf- -C ./actions-runner/
+    export full_url="https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${TRANSFORMED_ARCH}-${RUNNER_VERSION}.tar.gz"; \
+    echo "TRANSFORMED_ARCH: $TRANSFORMED_ARCH | full_url: $full_url"; \
+    curl -L $full_url -o ./archive.tar.gz \
+        && ls ./ \ # DEBUG
+        && tar -xzf ./archive.tar.gz -C ./actions-runner/ \
+        && rm ./archive.tar.gz \
+        && ls ./actions-runner # DEBUG
 
 # Install deps
 RUN ./actions-runner/bin/installdependencies.sh
