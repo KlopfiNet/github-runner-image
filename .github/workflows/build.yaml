@@ -3,10 +3,13 @@ name: build-publish
 on:
   push:
     branches:
-      - "main"
+      - "master"
     paths:
       - "*docker*"
       - "run.sh"
+  schedule:
+    - cron:  '0 1 1,14 * 1'
+  workflow_dispatch:
 
 jobs:
   docker:
