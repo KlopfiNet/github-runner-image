@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/x64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: GH_RUNNER_VERSION=$gh_run_version
           tags: thisisnttheway/${{ github.event.repository.name }}:latest
