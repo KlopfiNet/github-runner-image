@@ -21,6 +21,9 @@ echo "GH_FULL (${CONTEXT}): ${GH_FULL}"
 RUNNER_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1)
 RUNNER_NAME="${GH_FULL}-${RUNNER_SUFFIX}"
 
+# Runner labels
+labels=$([ $RUNNER_LABELS ] && echo $RUNNER_LABELS || echo "none")
+
 REG_URL="https://api.github.com/${CONTEXT}/${GH_FULL}/actions/runners/registration-token"
 echo REG_URL: ${REG_URL}
 
@@ -29,7 +32,7 @@ REG_TOKEN=$(curl -sX POST -H "Accept: application/vnd.github.v3+json" -H "Author
 # Configuration
 cd /home/docker/actions-runner
 
-./config.sh --unattended --url https://github.com/${GH_FULL} --token ${REG_TOKEN} --name ${RUNNER_NAME}
+./config.sh --unattended --url https://github.com/${GH_FULL} --token ${REG_TOKEN} --name ${RUNNER_NAME} $labels
 
 cleanup() {
     echo "Removing runner..."
