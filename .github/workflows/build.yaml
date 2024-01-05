@@ -17,10 +17,11 @@ jobs:
     steps:
       - name: Get latest GH runner release
         run: |
-          curl --silent "https://api.github.com/repos/actions/runner/releases/latest" |
+          version=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" |
             grep '"tag_name":' |
             sed -E 's/.*"([^"]+)".*/\1/' |
-            sed -E 's/v//' >> $GITHUB_ENV
+            sed -E 's/v//')
+          echo $version >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
