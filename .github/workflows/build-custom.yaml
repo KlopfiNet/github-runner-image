@@ -1,19 +1,19 @@
-name: build-publish
+name: build-publish-custom
 
 on:
   push:
     branches:
       - "master"
     paths:
-      - "*ocker*"
-      - "run.sh"
-      - ".github/workflows/**"
+      - "custom/*ocker*"
+      - "custom/un.sh"
+      - ".github/workflows/*custom.yaml"
   schedule:
     - cron:  '0 1 1,14 * 1'
   workflow_dispatch:
 
 jobs:
-  docker:
+  build-custom:
     runs-on: ubuntu-latest
     steps:
       - name: Get latest GH runner release
@@ -43,4 +43,4 @@ jobs:
           push: true
           build-args: |
             "GH_RUNNER_VERSION=${{ steps.gh-runner-version.outputs.GH_RUN_VERSION }}"
-          tags: thisisnttheway/${{ github.event.repository.name }}:latest
+          tags: thisisnttheway/${{ github.event.repository.name }}-custom:latest
