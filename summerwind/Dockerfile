@@ -13,7 +13,7 @@ RUN (type -p wget >/dev/null || (apt update && apt-get install wget -y)) \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
 # Extend packages
-RUN apt update && apt upgrade -y && apt install python gh ansible -y
+RUN apt-get update && apt-get upgrade -y && apt-get install python gh ansible -y
 
 USER 1000
 ENTRYPOINT ["/bin/bash", "-c"]
