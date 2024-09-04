@@ -1,19 +1,19 @@
-name: build-publish-summerwind
+name: build-publish-actions-runner
 
 on:
   push:
     branches:
       - "master"
     paths:
-      - "summerwind/*ocker*"
-      - "summerwind/run.sh"
-      - ".github/workflows/*summerwind.yaml"
+      - "actions-runner/*ocker*"
+      - "actions-runner/run.sh"
+      - ".github/workflows/*actions-runner.yaml"
   schedule:
     - cron:  '0 1 1,14 * 1'
   workflow_dispatch:
 
 jobs:
-  build-summerwind:
+  build-actions-runner:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: summerwind
+          context: actions-runner
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: thisisnttheway/${{ github.event.repository.name }}-summerwind:latest
+          tags: thisisnttheway/${{ github.event.repository.name }}-actions-runner:latest
