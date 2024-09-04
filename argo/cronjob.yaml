@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: check-upstream-image
+spec:
+  schedule: "1 0 * * 1"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: check
+            image: busybox:1.35
+            command:
+              - /bin/sh
+              - -c
+              - |
+                cd /scripts
+                set -e
+
+                ./check-image.sh
+                ./check-workflow.sh $REPO
+                ./trigger-workflow.sh $REPO $WORKFLOW
+            env:
+              - name: REPO
+                value: KlopfiNet/github-runner-image
+              - name: TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    key: token
+                    name: gh-actions-api-token
+            volumeMounts:
+              - name: automation-scripts
+                mountPath: "/scripts/"
+                readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+          - name: automation-scripts
+            configMap:
+              name: automation-scripts
